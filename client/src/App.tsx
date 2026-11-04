@@ -47,3 +47,5 @@ export const App: React.FC = () => {
 
 export default App;
 
+// Client application root component
+
