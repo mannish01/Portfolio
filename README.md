@@ -3,11 +3,20 @@
 # ⚡ Manish Kumar — Personal Developer Portfolio
 
 <p align="center">
+  <a href="https://portfolio-vx8y.onrender.com/" target="_blank">
+    <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-portfolio--vx8y.onrender.com-7957FF?style=for-the-badge&logo=render&logoColor=white" alt="Live Demo" />
+  </a>
+</p>
+
+<p align="center">
   <strong>An award-winning caliber, creative, and animated full-stack developer portfolio.</strong>
   <br />
   Engineered with the <strong>MERN Stack (MongoDB, Express.js, React.js, Node.js)</strong>, <strong>TypeScript</strong>, and <strong>Tailwind CSS</strong>.
+  <br />
+  🌐 <strong>Live Website:</strong> <a href="https://portfolio-vx8y.onrender.com/"><strong>https://portfolio-vx8y.onrender.com/</strong></a>
 </p>
 
+[![Live Site](https://img.shields.io/badge/Live_Site-portfolio--vx8y.onrender.com-success?logo=render&logoColor=white)](https://portfolio-vx8y.onrender.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -245,14 +254,21 @@ npm run build
 npm start
 ```
 
+### 5. 🌐 Live Production Deployment
+- **Live Website**: [https://portfolio-vx8y.onrender.com/](https://portfolio-vx8y.onrender.com/)
+- **Live Health Check**: [https://portfolio-vx8y.onrender.com/api/health](https://portfolio-vx8y.onrender.com/api/health)
+- **Database**: Connected to MongoDB Atlas Cluster
+- **Notification**: Automated Gmail SMTP delivery on form submission
+
 ---
 
 ## 📬 Contact & Connect
 
-- **Email**: [manishkumar383904@gmail.com](mailto:manishkumar383904@gmail.com)
-- **LinkedIn**: [linkedin.com/in/mannish01](https://www.linkedin.com/in/mannish01)
-- **GitHub**: [github.com/mannish01](https://github.com/mannish01)
-- **Location**: Samastipur, Bihar, India
+- 🌐 **Live Website**: [portfolio-vx8y.onrender.com](https://portfolio-vx8y.onrender.com/)
+- 📧 **Email**: [manishkumar383904@gmail.com](mailto:manishkumar383904@gmail.com)
+- 💼 **LinkedIn**: [linkedin.com/in/mannish01](https://www.linkedin.com/in/mannish01)
+- 🐙 **GitHub**: [github.com/mannish01](https://github.com/mannish01)
+- 📍 **Location**: Samastipur, Bihar, India
 
 ---
 
