@@ -12,26 +12,30 @@ export const sendContactNotification = async (
 ): Promise<boolean> => {
   const { name, email, subject, message } = payload;
 
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
+  const smtpUser = process.env.SMTP_USER || 'manishkumar383904@gmail.com';
+  const rawPass = process.env.SMTP_PASS;
+  const smtpPass = rawPass ? rawPass.replace(/\s+/g, '') : undefined;
   const recipientEmail = process.env.EMAIL_TO || 'manishkumar383904@gmail.com';
 
   // Check if SMTP credentials are configured
-  if (!smtpUser || !smtpPass) {
-    console.log(
-      'ℹ️ [Email Service] Message saved to MongoDB. Live email delivery requires SMTP_USER and SMTP_PASS in server/.env'
+  if (!smtpPass) {
+    console.warn(
+      '⚠️ [Email Service] Live email skipped: SMTP_PASS is missing in Render environment variables.'
     );
     return false;
   }
 
+  console.log(`✉️ [Email Service] Sending notification from ${smtpUser} to ${recipientEmail}...`);
+
   try {
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: Number(process.env.SMTP_PORT || 465) === 465, // true for 465, false for 587
+      service: 'gmail',
       auth: {
         user: smtpUser,
         pass: smtpPass,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
