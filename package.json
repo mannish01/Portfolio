@@ -1,0 +1,21 @@
+{
+  "name": "manish-portfolio",
+  "version": "1.0.0",
+  "description": "Premium, colorful, animated personal developer portfolio for Manish Kumar (MERN + TypeScript)",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run --prefix client dev",
+    "dev:server": "npm run --prefix server dev",
+    "view:messages": "npm run --prefix server messages",
+    "build": "npm run build:server && npm run build:client",
+    "build:client": "npm run --prefix client build",
+    "build:server": "npm run --prefix server build",
+    "start": "npm run --prefix server start",
+    "install:all": "npm install && npm run --prefix client install && npm run --prefix server install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "playwright": "^1.64.1"
+  }
+}
