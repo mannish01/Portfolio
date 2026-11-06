@@ -37,13 +37,11 @@ export const handleContactSubmit = async (
       message: validatedData.message,
     });
 
-    // 4. Dispatch Email Notification (await to ensure completion before response)
-    try {
-      const emailSent = await sendContactNotification(validatedData);
-      console.log(`[Contact Submit] Email notification status: ${emailSent ? 'Delivered' : 'Skipped/Failed'}`);
-    } catch (emailErr) {
-      console.error('[Contact Submit] Unexpected email dispatch error:', emailErr);
-    }
+    // 4. Dispatch Email Notification asynchronously (fire-and-forget)
+    // Send response immediately after DB save; email is dispatched in background
+    sendContactNotification(validatedData).catch((err) => {
+      console.error('[Email Notification Error]', err);
+    });
 
     res.status(201).json({
       success: true,

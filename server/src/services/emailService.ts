@@ -1,4 +1,30 @@
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
+
+// Reusable transporter instance (created once, reused across requests)
+let cachedTransporter: ReturnType<typeof nodemailer.createTransport> | null = null;
+
+function getTransporter(): ReturnType<typeof nodemailer.createTransport> {
+  if (!cachedTransporter) {
+    const smtpUser = process.env.SMTP_USER || 'manishkumar383904@gmail.com';
+    const rawPass = process.env.SMTP_PASS;
+    const smtpPass = rawPass ? rawPass.replace(/\s+/g, '') : undefined;
+
+    cachedTransporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+      pool: true, // Enable connection pooling for better performance
+      maxConnections: 1,
+      maxMessages: 100,
+    });
+  }
+  return cachedTransporter;
+}
 
 export interface EmailNotificationPayload {
   name: string;
@@ -28,16 +54,7 @@ export const sendContactNotification = async (
   console.log(`✉️ [Email Service] Sending notification from ${smtpUser} to ${recipientEmail}...`);
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    const transporter = getTransporter();
 
     const emailSubject = `📬 [Portfolio Inquiry] ${subject} — from ${name}`;
 
