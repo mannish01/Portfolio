@@ -61,6 +61,10 @@ export const Contact: React.FC = () => {
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: '' }));
     }
+    // Clear status message when user modifies the form
+    if (statusMessage) {
+      setStatusMessage(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -303,6 +307,7 @@ export const Contact: React.FC = () => {
                       name="name"
                       type="text"
                       required
+                      maxLength={80}
                       placeholder="e.g. Sarah Jenkins"
                       value={formData.name}
                       onChange={handleChange}
@@ -332,6 +337,7 @@ export const Contact: React.FC = () => {
                       name="email"
                       type="email"
                       required
+                      maxLength={100}
                       placeholder="e.g. sarah@company.com"
                       value={formData.email}
                       onChange={handleChange}
@@ -363,6 +369,7 @@ export const Contact: React.FC = () => {
                     name="subject"
                     type="text"
                     required
+                    maxLength={120}
                     placeholder="e.g. Full-Stack Developer Opportunity / Project Inquiry"
                     value={formData.subject}
                     onChange={handleChange}
@@ -393,6 +400,7 @@ export const Contact: React.FC = () => {
                     name="message"
                     rows={5}
                     required
+                    maxLength={2500}
                     placeholder="Tell me about your project, timeline, or opportunity..."
                     value={formData.message}
                     onChange={handleChange}
@@ -403,11 +411,24 @@ export const Contact: React.FC = () => {
                         : 'border-white/10 hover:border-white/20'
                     }`}
                   />
-                  {fieldErrors.message && (
-                    <p className="mt-1.5 font-mono text-xs text-coral">
-                      {fieldErrors.message}
-                    </p>
-                  )}
+                  <div className="mt-1.5 flex items-center justify-between">
+                    {fieldErrors.message ? (
+                      <p className="font-mono text-xs text-coral">
+                        {fieldErrors.message}
+                      </p>
+                    ) : (
+                      <span />
+                    )}
+                    <span
+                      className={`font-mono text-xs ${
+                        formData.message.length > 2000
+                          ? 'text-coral'
+                          : 'text-offwhite/50'
+                      }`}
+                    >
+                      {formData.message.length}/2500
+                    </span>
+                  </div>
                 </div>
 
                 {/* Submit Button */}

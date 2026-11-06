@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       }
 
       // Track active section
-      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'education', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'education', 'certifications', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -68,13 +68,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 sm:h-[70px] flex items-center ${
           isScrolled
-            ? 'py-3.5 bg-navy-dark/80 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
-            : 'py-6 bg-transparent'
+            ? 'bg-navy-dark/80 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+            : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
           {/* Brand Logo with Redesigned Photo Avatar */}
           <a
             href="#home"
@@ -170,7 +170,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-x-0 top-[70px] z-40 lg:hidden px-4 py-6 bg-navy-dark/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl"
+            className="fixed inset-x-0 top-16 z-40 lg:hidden px-4 py-6 bg-navy-dark/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl"
           >
             <div className="flex flex-col gap-2 max-w-md mx-auto">
               {navLinks.map((link) => {

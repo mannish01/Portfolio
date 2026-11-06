@@ -111,10 +111,12 @@ export const CustomCursor: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden transition-opacity duration-300">
+    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden transition-opacity duration-300" aria-hidden="true" role="presentation">
       {/* Precision Inner Dot */}
       <div
         ref={dotRef}
+        aria-hidden="true"
+        role="presentation"
         className={`fixed top-0 left-0 -ml-1 -mt-1 h-2 w-2 rounded-full transition-all duration-150 ease-out ${
           cursorState === 'text'
             ? 'opacity-0'
@@ -128,6 +130,8 @@ export const CustomCursor: React.FC = () => {
       {/* Trailing Outer Ring / Morphing Pill */}
       <div
         ref={ringRef}
+        aria-hidden="true"
+        role="presentation"
         className={`fixed top-0 left-0 flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
           cursorState === 'project'
             ? 'h-20 w-20 -ml-10 -mt-10 bg-violet/90 backdrop-blur-md border border-lime text-lime shadow-[0_0_30px_rgba(121,87,255,0.6)] scale-100'
