@@ -45,20 +45,32 @@ app.use(
       // Allow requests with no origin (like mobile apps, curl, or same-origin browser requests)
       if (!origin) return callback(null, true);
       
-      // Only allow specific origins in production for security
-      if (process.env.NODE_ENV === 'production') {
-        const allowedOrigins = CLIENT_URL ? [CLIENT_URL] : ['https://portfolio-vx8y.onrender.com'];
-        if (allowedOrigins.includes(origin)) {
-          return callback(null, true);
-        }
-        return callback(new Error('CORS policy violation: Origin not allowed'), false);
-      }
+      // Normalize origin (remove trailing slash)
+      const normalizedOrigin = origin.replace(/\/$/, '');
       
-      // Allow localhost origins in development
-      if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+      // Allow localhost origins in all environments
+      if (normalizedOrigin.includes('localhost') || normalizedOrigin.includes('127.0.0.1')) {
         return callback(null, true);
       }
       
+      // In production, validate against allowed origins
+      if (process.env.NODE_ENV === 'production') {
+        const allowedOrigins = CLIENT_URL 
+          ? [CLIENT_URL, CLIENT_URL.replace(/\/$/, '')] 
+          : ['https://portfolio-vx8y.onrender.com'];
+        
+        // Also allow the Render deployment URL
+        allowedOrigins.push('https://portfolio-vx8y.onrender.com');
+        
+        if (allowedOrigins.some(allowed => normalizedOrigin === allowed || normalizedOrigin === allowed.replace(/\/$/, ''))) {
+          return callback(null, true);
+        }
+        
+        console.warn(`[CORS] Blocked origin: ${origin}`);
+        return callback(new Error('CORS policy violation: Origin not allowed'), false);
+      }
+      
+      // Allow all origins in development
       return callback(null, true);
     },
     credentials: false,
