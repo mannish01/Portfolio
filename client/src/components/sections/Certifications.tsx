@@ -4,7 +4,7 @@ import { Radio, Cloud, Code, Award, CheckCircle2 } from 'lucide-react';
 import { certificationsData } from '../../data/portfolioData.js';
 import { SectionHeading } from '../ui/SectionHeading.js';
 
-const certIconMap: Record<string, React.FC<{ className?: string }>> = {
+const certIconMap: Record<string, React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>> = {
   Radio,
   Cloud,
   Code,

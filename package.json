@@ -13,10 +13,21 @@
     "build:server": "npm run --prefix server build",
     "start": "npm run --prefix server start",
     "postinstall": "npm --prefix client install --include=dev && npm --prefix server install --include=dev",
-    "install:all": "npm install --include=dev && npm --prefix client install --include=dev && npm --prefix server install --include=dev"
+    "install:all": "npm install --include=dev && npm --prefix client install --include=dev && npm --prefix server install --include=dev",
+    "test:client": "npm run --prefix client test",
+    "test:server": "npm run --prefix server test",
+    "test:e2e": "playwright test",
+    "test": "npm run test:client && npm run test:server && npm run test:e2e"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
-    "playwright": "^1.64.1"
+    "playwright": "^1.64.1",
+    "eslint": "^8.57.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "prettier": "^3.5.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1"
   }
 }

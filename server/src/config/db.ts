@@ -10,14 +10,14 @@ const formatMongoUri = (rawUri: string): string => {
   if (match) {
     const [, protocol, username, password, host, rest = ''] = match;
     // Decode first in case already partially encoded, then encode
-    const safePassword = encodeURIComponent(decodeURIComponent(password));
+    const safePassword = password ? encodeURIComponent(decodeURIComponent(password)) : '';
     return `${protocol}${username}:${safePassword}@${host}${rest}`;
   }
   return rawUri;
 };
 
 export const connectDB = async (): Promise<boolean> => {
-  const rawUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/manish_portfolio';
+  const rawUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1/manish_portfolio';
   const uri = formatMongoUri(rawUri);
 
   if (mongoose.connection.readyState === 1) {
@@ -28,11 +28,15 @@ export const connectDB = async (): Promise<boolean> => {
   try {
     mongoose.set('strictQuery', true);
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: parseInt(process.env.MONGODB_TIMEOUT_MS || '5000'),
       connectTimeoutMS: 6000,
+      // autoReconnect is not a valid option in newer Mongoose versions
+      maxPoolSize: 10,
+      bufferCommands: false,
     });
     isConnected = true;
     console.log(`[MongoDB] Connected successfully to Atlas cluster: ${mongoose.connection.host}/${mongoose.connection.name}`);
+    console.log(`[MongoDB] Database name: ${mongoose.connection.name}`);
     
     if (reconnectInterval) {
       clearInterval(reconnectInterval);

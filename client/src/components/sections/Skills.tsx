@@ -25,7 +25,7 @@ import { skillCategoriesData } from '../../data/portfolioData.js';
 import { SectionHeading } from '../ui/SectionHeading.js';
 
 // Map icon strings to Lucide components
-const iconMap: Record<string, React.FC<{ className?: string }>> = {
+const iconMap: Record<string, React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>> = {
   Code2,
   Layout,
   Server,

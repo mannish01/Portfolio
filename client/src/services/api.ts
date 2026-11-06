@@ -15,12 +15,15 @@ export const submitContactMessage = async (
     const data: ApiResponse = await response.json();
 
     if (!response.ok) {
-      return {
+      const result: ApiResponse = {
         success: false,
         message: data.message || `Request failed with status ${response.status}`,
         isConfigError: data.isConfigError || response.status === 503,
-        errors: data.errors,
       };
+      if (data.errors) {
+        result.errors = data.errors;
+      }
+      return result;
     }
 
     return data;
