@@ -77,6 +77,7 @@ export const Skills: React.FC = () => {
         <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 mb-12">
           <button
             onClick={() => setActiveTab('all')}
+            aria-pressed={activeTab === 'all'}
             className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-mono text-xs sm:text-sm font-semibold transition-all duration-300 ${
               activeTab === 'all'
                 ? 'bg-lime text-navy-dark shadow-[0_0_20px_rgba(215,255,100,0.4)]'
@@ -92,6 +93,7 @@ export const Skills: React.FC = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveTab(category.id)}
+                aria-pressed={isActive}
                 className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-mono text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   isActive
                     ? 'bg-violet text-white shadow-[0_0_20px_rgba(121,87,255,0.4)]'

@@ -58,29 +58,3 @@ export const handleContactSubmit = async (
   }
 };
 
-// Retrieve submitted messages for portfolio owner
-export const getContactMessages = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    if (!isDbConnected()) {
-      res.status(503).json({
-        success: false,
-        message: 'Database is currently offline. Cannot retrieve messages.',
-      });
-      return;
-    }
-
-    const messages = await Contact.find().sort({ createdAt: -1 }).limit(100);
-    res.status(200).json({
-      success: true,
-      count: messages.length,
-      database: 'MongoDB Atlas (manish_portfolio.contacts)',
-      messages,
-    });
-  } catch (error) {
-    next(error);
-  }
-};

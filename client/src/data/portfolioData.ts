@@ -109,7 +109,6 @@ export const skillCategoriesData: SkillCategory[] = [
     icon: 'Layout',
     skills: [
       { name: 'React.js', iconName: 'Layers', category: 'frontend', color: '#61DAFB', highlight: true },
-      { name: 'TypeScript', iconName: 'FileCode', category: 'frontend', color: '#3178C6', highlight: true },
       { name: 'HTML5', iconName: 'Globe', category: 'frontend', color: '#E34F26' },
       { name: 'CSS3', iconName: 'Palette', category: 'frontend', color: '#1572B6' },
       { name: 'Tailwind CSS', iconName: 'Sparkles', category: 'frontend', color: '#06B6D4', highlight: true },
@@ -125,7 +124,6 @@ export const skillCategoriesData: SkillCategory[] = [
       { name: 'Express.js', iconName: 'Cpu', category: 'backend', color: '#FFFFFF', highlight: true },
       { name: 'REST APIs', iconName: 'Workflow', category: 'backend', color: '#7957FF', highlight: true },
       { name: 'Prisma ORM', iconName: 'Database', category: 'backend', color: '#2D3748', highlight: true },
-      { name: 'PHP', iconName: 'Server', category: 'backend', color: '#777BB4' },
       { name: 'CodeIgniter', iconName: 'Flame', category: 'backend', color: '#EE4326' },
     ],
   },
@@ -221,7 +219,7 @@ export const certificationsData: Certification[] = [
   },
   {
     id: 'fcc-web',
-    title: 'Responsive Web Design & JavaScript',
+    title: 'HTML, CSS and JavaScript',
     issuer: 'freeCodeCamp',
     skills: ['HTML5 Semantic Structure', 'CSS3 Flexbox & Grid', 'Modern JavaScript (ES6+)', 'DOM Manipulation'],
     icon: 'Code',

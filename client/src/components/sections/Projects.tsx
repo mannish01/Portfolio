@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Github,
@@ -21,6 +21,58 @@ import { SectionHeading } from '../ui/SectionHeading.js';
 
 export const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusableItems = () =>
+      modalRef.current
+        ? Array.from(
+            modalRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+          )
+        : [];
+
+    focusableItems()[0]?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedProject(null);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const items = focusableItems();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (!modalRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus();
+    };
+  }, [selectedProject]);
 
   return (
     <section id="projects" className="relative py-24 sm:py-32 bg-navy-surface text-offwhite overflow-hidden">
@@ -127,7 +179,7 @@ export const Projects: React.FC = () => {
                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-mono font-bold bg-violet text-white hover:bg-violet-dark transition-all shadow-[0_0_20px_rgba(121,87,255,0.4)]"
                       >
                         <Sparkles className="w-3.5 h-3.5" />
-                        <span>View Architecture</span>
+                        <span>View Details</span>
                       </button>
                     </div>
                   </div>
@@ -324,6 +376,10 @@ export const Projects: React.FC = () => {
 
             {/* Modal Box */}
             <motion.div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -331,6 +387,7 @@ export const Projects: React.FC = () => {
             >
               <button
                 onClick={() => setSelectedProject(null)}
+                aria-label="Close project details"
                 className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-offwhite/70 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -341,7 +398,10 @@ export const Projects: React.FC = () => {
                   <span className="text-xs font-mono font-semibold uppercase text-lime">
                     {selectedProject.category}
                   </span>
-                  <h3 className="font-display text-3xl sm:text-4xl font-bold text-offwhite mt-1">
+                  <h3
+                    id="project-modal-title"
+                    className="font-display text-3xl sm:text-4xl font-bold text-offwhite mt-1"
+                  >
                     {selectedProject.title}
                   </h3>
                   <p className="text-base text-coral font-medium mt-1">

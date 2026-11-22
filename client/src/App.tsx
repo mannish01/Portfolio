@@ -16,11 +16,26 @@ export const App: React.FC = () => {
   const { scrollTo } = useLenis();
 
   const handleScrollTo = (target: string) => {
+    const id = target.replace('#', '');
+    if (id) {
+      const url = new URL(window.location.href);
+      if (url.hash !== `#${id}`) {
+        url.hash = id;
+        window.history.pushState(null, '', url);
+      }
+    }
     scrollTo(target);
   };
 
   return (
     <div className="relative min-h-screen bg-navy-dark text-offwhite selection:bg-coral selection:text-navy-dark">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-lime focus:text-navy-dark focus:font-mono focus:text-sm"
+      >
+        Skip to content
+      </a>
+
       {/* Standout Custom Cursor */}
       <CustomCursor />
 
@@ -28,7 +43,7 @@ export const App: React.FC = () => {
       <Navbar onNavigate={handleScrollTo} />
 
       {/* Main Content Sections */}
-      <main>
+      <main id="main-content">
         <Hero onScrollTo={handleScrollTo} />
         <About onScrollTo={handleScrollTo} />
         <Skills />

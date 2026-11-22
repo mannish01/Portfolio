@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import {
-  handleContactSubmit,
-  getContactMessages,
-} from '../controllers/contactController.js';
+import { handleContactSubmit } from '../controllers/contactController.js';
 import { contactRateLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 
-// GET /api/contact - View all submitted contact messages
-router.get('/', getContactMessages);
-
+// Reads of submitted contact messages are intentionally not exposed over HTTP.
+// The owner can inspect messages locally with server/src/scripts/viewMessages.ts.
 // POST /api/contact - Rate limited & Zod validated submission
 router.post('/', contactRateLimiter, handleContactSubmit);
 
