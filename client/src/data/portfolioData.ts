@@ -51,7 +51,7 @@ export const projectsData: Project[] = [
       '10 passing tests with CI and a Render deployment blueprint',
     ],
     githubUrl: 'https://github.com/mannish01/TaskFlow',
-    liveDemoUrl: 'https://taskflow.onrender.com',
+    liveDemoUrl: 'https://taskflow-lac5.onrender.com',
     accentColor: '#C8FF2E',
     gradient: 'from-[#C8FF2E] via-[#F1EDE3] to-[#0B0B0A]',
     stats: [
