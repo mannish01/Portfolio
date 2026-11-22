@@ -26,6 +26,41 @@ export const personalInfo = {
 
 export const projectsData: Project[] = [
   {
+    id: 'taskflow',
+    title: 'TaskFlow',
+    category: 'Full-Stack Task Manager',
+    tagline: 'A brutalist-terminal MERN app built like a production system',
+    description:
+      'A focused task manager that proves the full MERN request path: authenticated sessions, server-side validation, ownership-safe CRUD, filters, pagination, tests, CI and deployment config.',
+    longDescription:
+      'TaskFlow is a deliberately narrow but production-shaped portfolio project. React and TypeScript talk to an Express REST API through httpOnly-cookie JWT auth. Zod validates every boundary, MongoDB stores per-user tasks, and every query is scoped to the authenticated user. The UI is an opinionated brutalist terminal: warm paper, hard black rules, monospace type and a single acid-lime accent.',
+    technologies: [
+      'React',
+      'TypeScript',
+      'Express.js',
+      'Node.js',
+      'MongoDB',
+      'Tailwind CSS',
+      'Zod',
+      'Vitest',
+    ],
+    features: [
+      'bcrypt + httpOnly JWT cookie authentication with protected routes',
+      'Per-user task CRUD with ownership checks on every endpoint',
+      'Zod validation, stable error envelopes, filters and pagination',
+      '10 passing tests with CI and a Render deployment blueprint',
+    ],
+    githubUrl: 'https://github.com/mannish01/TaskFlow',
+    liveDemoUrl: 'https://taskflow.onrender.com',
+    accentColor: '#C8FF2E',
+    gradient: 'from-[#C8FF2E] via-[#F1EDE3] to-[#0B0B0A]',
+    stats: [
+      { label: 'Tests', value: '10 passing' },
+      { label: 'Auth', value: 'httpOnly JWT' },
+      { label: 'UI', value: 'Brutalist' },
+    ],
+  },
+  {
     id: 'applylens',
     title: 'ApplyLens',
     category: 'Full-Stack Web Platform',

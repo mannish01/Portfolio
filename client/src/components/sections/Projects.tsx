@@ -119,7 +119,7 @@ export const Projects: React.FC = () => {
                         {project.category}
                       </span>
                       <span className="text-xs font-mono text-offwhite/40">
-                        {index === 0 ? '01 / 02' : '02 / 02'}
+                        {`${String(index + 1).padStart(2, '0')} / ${String(projectsData.length).padStart(2, '0')}`}
                       </span>
                     </div>
 
@@ -173,6 +173,19 @@ export const Projects: React.FC = () => {
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </a>
 
+                      {project.liveDemoUrl && (
+                        <a
+                          href={project.liveDemoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-mono font-bold bg-lime text-navy-deep hover:bg-lime/80 transition-all"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
+
                       {/* Modal / Deep-dive Trigger */}
                       <button
                         onClick={() => setSelectedProject(project)}
@@ -199,11 +212,17 @@ export const Projects: React.FC = () => {
                           <span className="ml-2 font-mono text-[11px] text-offwhite/50 truncate max-w-[200px]">
                             {project.id === 'applylens'
                               ? 'https://applylens.dev/opportunities'
-                              : 'https://travelexplorer.app/destinations'}
+                              : project.id === 'taskflow'
+                                ? 'https://taskflow.onrender.com/tasks'
+                                : 'https://travelexplorer.app/destinations'}
                           </span>
                         </div>
                         <span className="font-mono text-[10px] text-lime uppercase tracking-widest bg-lime/10 px-2 py-0.5 rounded border border-lime/20">
-                          {project.id === 'applylens' ? 'MERN + PRISMA' : 'PHP + MYSQL'}
+                          {project.id === 'applylens'
+                            ? 'MERN + PRISMA'
+                            : project.id === 'taskflow'
+                              ? 'MERN + JWT'
+                              : 'PHP + MYSQL'}
                         </span>
                       </div>
 
@@ -283,6 +302,37 @@ export const Projects: React.FC = () => {
                             </span>
                             <span className="text-violet-light font-bold">200 OK</span>
                           </div>
+                        </div>
+                      ) : project.id === 'taskflow' ? (
+                        /* TaskFlow Terminal Queue Mockup */
+                        <div className="space-y-3 font-mono">
+                          <div className="flex items-center justify-between rounded-lg border border-lime/30 bg-lime/5 px-3 py-2 text-[10px] uppercase tracking-widest text-lime">
+                            <span>● system online</span>
+                            <span>queue :: 03</span>
+                          </div>
+                          <div className="rounded-xl border border-white/10 bg-navy-surface/80 p-3">
+                            <div className="mb-2 text-[10px] uppercase tracking-widest text-offwhite/40">+ new entry</div>
+                            <div className="space-y-1.5 text-[11px] text-offwhite/70">
+                              <div className="border-b border-white/10 pb-1">title :: What needs doing?</div>
+                              <div className="border-b border-white/10 pb-1">detail :: Optional detail</div>
+                              <div className="text-lime">[ add task → ]</div>
+                            </div>
+                          </div>
+                          <div className="space-y-2 text-[11px]">
+                            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-navy-surface/60 px-3 py-2">
+                              <span className="text-offwhite/40 line-through">[x] ship taskflow api</span>
+                              <span className="rounded border border-lime/40 bg-lime/15 px-1.5 text-[9px] text-lime">DONE</span>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-navy-surface/60 px-3 py-2">
+                              <span className="text-offwhite">[ ] write readme</span>
+                              <span className="rounded border border-white/20 px-1.5 text-[9px] text-offwhite/60">TODO</span>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-navy-surface/60 px-3 py-2">
+                              <span className="text-offwhite">[ ] deploy to render</span>
+                              <span className="rounded border border-white/20 px-1.5 text-[9px] text-offwhite/60">TODO</span>
+                            </div>
+                          </div>
+                          <div className="text-right text-[10px] text-violet-light">10 TESTS PASSING ✓</div>
                         </div>
                       ) : (
                         /* Travel Explorer Product Mockup */

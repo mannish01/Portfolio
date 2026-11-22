@@ -84,7 +84,7 @@ An interactive technical skills showcase organized into *Languages*, *Frontend*,
 ---
 
 ### 4. Featured Projects (Case Studies)
-In-depth case studies for **ApplyLens** (Full-Stack Job & Internship Platform) and **Travel Explorer** (Travel Reservation Portal), complete with interactive UI mockups, tech badges, architecture modals, and GitHub links.
+In-depth case studies for **TaskFlow** (brutalist-terminal MERN task manager), **ApplyLens** (Full-Stack Job & Internship Platform), and **Travel Explorer** (Travel Reservation Portal), complete with interactive UI mockups, tech badges, architecture modals, GitHub links, and live demo links.
 
 <p align="center">
   <img src="./docs/screenshots/04-projects.png" alt="Featured Projects" width="95%" />
