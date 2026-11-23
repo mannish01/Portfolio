@@ -13,7 +13,7 @@ export const Experience: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="04"
+          number="05"
           tag="PRACTICAL EXPERIENCE"
           title="Industry Internships & Applied Learning."
           subtitle="Direct technical exposure in machine learning workflows and full-stack web development."

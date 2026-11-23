@@ -51,6 +51,7 @@
   - **Custom Adaptive Cursor**: Spring-physics inner dot and trailing follower using linear interpolation (`lerp`) at 60/120fps. Morphs into an animated `VIEW` pill over project cards and expands with magnetic pull over buttons. Auto-disables on touch devices and respects `prefers-reduced-motion`.
   - **Lenis Smooth Scrolling**: Kinetic scrolling synchronized with `requestAnimationFrame`.
   - **Full-Stack Form with Gmail SMTP**: Submissions are validated with **Zod**, stored in **MongoDB Atlas**, and dispatch an automated email notification directly to Manish's Gmail inbox with a 1-click reply button.
+- **Live LeetCode Dashboard**: A dedicated section queries [alfa-leetcode-api](https://github.com/alfaarghya/alfa-leetcode-api) at runtime for solved counts, ranking, streak, language/topic breakdowns and recent submissions, with cache, refresh and an offline snapshot fallback.
 
 ---
 
@@ -92,7 +93,12 @@ In-depth case studies for **TaskFlow** (brutalist-terminal MERN task manager, [l
 
 ---
 
-### 5. Practical Internships & Education Timeline
+### 5. Live LeetCode Performance Dashboard
+A dedicated `#leetcode` section backed by the open-source [alfa-leetcode-api](https://github.com/alfaarghya/alfa-leetcode-api) for [@MANISHX01](https://leetcode.com/u/MANISHX01/). It renders solved counts and the easy/medium/hard split, global rank, current streak, acceptance rate, language mix, percentile ("beats") bars, topic strengths, a 26-week submission heatmap, and recent accepted problems. Data is fetched in parallel with a 10-minute cache, a manual refresh control, and a bundled snapshot fallback so the section never renders empty when the API is down.
+
+---
+
+### 6. Practical Internships & Education Timeline
 An animated vertical timeline detailing Manish's industry internships at **NIELIT** (Machine Learning Intern, 6 weeks) and **Androwebstech Limited** (Full Stack Web Development Intern, 1 month).
 
 <p align="center">
@@ -101,7 +107,7 @@ An animated vertical timeline detailing Manish's industry internships at **NIELI
 
 ---
 
-### 6. Interactive Contact Section & Live Backend API
+### 7. Interactive Contact Section & Live Backend API
 Functional contact form with real-time validation, **Zod** schema checking, **MongoDB Atlas** persistence, and instant **Gmail SMTP** notification delivery.
 
 <p align="center">
@@ -132,16 +138,20 @@ Portfolio/
 │   │   ├── components/
 │   │   │   ├── animations/     # CustomCursor.tsx (trailing lerp physics)
 │   │   │   ├── layout/         # Navbar.tsx (glassmorphism), Footer.tsx (live clock)
-│   │   │   ├── sections/       # Hero, About, Skills, Projects, Experience, Education, Certifications, Contact
+│   │   │   ├── sections/       # Hero, About, Skills, Projects, LeetCode, Experience, Education, Certifications, Contact
 │   │   │   └── ui/             # MagneticButton.tsx, SectionHeading.tsx
 │   │   ├── data/
-│   │   │   └── portfolioData.ts # Centralized resume single source of truth
+│   │   │   ├── portfolioData.ts # Centralized resume single source of truth
+│   │   │   └── leetcodeSnapshot.ts # Offline fallback for live stats
 │   │   ├── hooks/
-│   │   │   └── useLenis.ts     # Lenis smooth scrolling integration
+│   │   │   ├── useLenis.ts     # Lenis smooth scrolling integration
+│   │   │   └── useLeetCodeStats.ts # Parallel API loading + refresh
 │   │   ├── services/
-│   │   │   └── api.ts          # REST API client
+│   │   │   ├── api.ts          # Contact REST API client
+│   │   │   └── leetcode.ts     # alfa-leetcode-api client, cache & helpers
 │   │   ├── types/
-│   │   │   └── portfolio.ts    # TypeScript definitions
+│   │   │   ├── portfolio.ts    # TypeScript definitions
+│   │   │   └── leetcode.ts     # LeetCode API response types
 │   │   ├── App.tsx             # Root application
 │   │   ├── index.css           # Tailwind styles & custom scrollbars
 │   │   └── main.tsx            # Entry point

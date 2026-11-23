@@ -14,6 +14,7 @@ import {
   Phone,
   ArrowUpRight,
   Sparkles,
+  Code2,
 } from 'lucide-react';
 import { personalInfo } from '../../data/portfolioData.js';
 
@@ -26,6 +27,7 @@ const navItems = [
   { name: 'About', href: '#about', icon: User },
   { name: 'Skills', href: '#skills', icon: Cpu },
   { name: 'Projects', href: '#projects', icon: Layers },
+  { name: 'LeetCode', href: '#leetcode', icon: Code2 },
   { name: 'Experience', href: '#experience', icon: Briefcase },
   { name: 'Education', href: '#education', icon: GraduationCap },
   { name: 'Contact', href: '#contact', icon: Mail },
@@ -156,6 +158,17 @@ export const Footer: React.FC<FooterProps> = ({ onScrollTo }) => {
                 >
                   <Linkedin className="w-3.5 h-3.5 text-[#0077B5]" />
                   <span>LinkedIn Network</span>
+                  <ArrowUpRight className="w-3 h-3 text-offwhite/40" />
+                </a>
+
+                <a
+                  href={personalInfo.leetcode}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 text-offwhite/75 hover:text-[#FFA116] transition-colors"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-[#FFA116]" />
+                  <span>LeetCode Profile</span>
                   <ArrowUpRight className="w-3 h-3 text-offwhite/40" />
                 </a>
 

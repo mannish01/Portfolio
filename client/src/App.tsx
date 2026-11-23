@@ -6,6 +6,7 @@ import { Hero } from './components/sections/Hero.js';
 import { About } from './components/sections/About.js';
 import { Skills } from './components/sections/Skills.js';
 import { Projects } from './components/sections/Projects.js';
+import { LeetCode } from './components/sections/LeetCode.js';
 import { Experience } from './components/sections/Experience.js';
 import { Education } from './components/sections/Education.js';
 import { Certifications } from './components/sections/Certifications.js';
@@ -48,6 +49,7 @@ export const App: React.FC = () => {
         <About onScrollTo={handleScrollTo} />
         <Skills />
         <Projects />
+        <LeetCode />
         <Experience />
         <Education />
         <Certifications />

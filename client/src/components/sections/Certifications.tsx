@@ -18,7 +18,7 @@ export const Certifications: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="06"
+          number="07"
           tag="CREDENTIALS"
           title="Verified Professional Certifications."
           subtitle="Continuous learning through nationally recognized academic bodies and developer foundations."

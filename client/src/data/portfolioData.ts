@@ -20,6 +20,7 @@ export const personalInfo = {
   phone: '+91-9939383904',
   github: 'https://github.com/mannish01',
   linkedin: 'https://www.linkedin.com/in/mannish01',
+  leetcode: 'https://leetcode.com/u/MANISHX01/',
   status: 'Open to Opportunities',
   resumeUrl: '/resume.pdf',
 };

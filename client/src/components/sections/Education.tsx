@@ -17,7 +17,7 @@ export const Education: React.FC = () => {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="05"
+          number="06"
           tag="ACADEMIC BACKGROUND"
           title="Formal Computer Science & AI Education."
           subtitle="Building rigorous fundamentals in algorithms, computing systems, and intelligent machine learning workflows."

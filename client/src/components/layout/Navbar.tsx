@@ -12,6 +12,7 @@ const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
+  { name: 'LeetCode', href: '#leetcode' },
   { name: 'Experience', href: '#experience' },
   { name: 'Education', href: '#education' },
   { name: 'Contact', href: '#contact' },
@@ -31,7 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       }
 
       // Track active section
-      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'education', 'certifications', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'leetcode', 'experience', 'education', 'certifications', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {

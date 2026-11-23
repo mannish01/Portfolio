@@ -121,7 +121,7 @@ export const Contact: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="07"
+          number="08"
           tag="GET IN TOUCH"
           title="Have a project in mind? Let's create something amazing."
           subtitle="Whether you have an internship opportunity, a project to collaborate on, or just want to discuss software engineering — I'd love to hear from you."
