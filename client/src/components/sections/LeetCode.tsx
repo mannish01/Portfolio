@@ -1,12 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Activity,
   ArrowUpRight,
   Award,
+  CircleDot,
   Code2,
   Flame,
+  LayoutGrid,
   RefreshCw,
+  Sparkles,
   Target,
   Trophy,
   Zap,
@@ -39,6 +42,7 @@ interface Heatcell {
   date: string;
   count: number;
   label: string;
+  week: number;
 }
 
 interface Heatmap {
@@ -90,7 +94,7 @@ function buildHeatmap(calendar: string | undefined, weeks = 26): Heatmap {
         month: 'short',
         year: 'numeric',
       });
-      cells.push({ date: iso, count, label });
+      cells.push({ date: iso, count, label, week: column });
       if (day === 0 && current.getUTCMonth() !== lastMonth) {
         lastMonth = current.getUTCMonth();
         months.push({
@@ -105,11 +109,27 @@ function buildHeatmap(calendar: string | undefined, weeks = 26): Heatmap {
 }
 
 function heatColor(count: number): string {
-  if (count === 0) return 'rgba(255,255,255,0.055)';
-  if (count === 1) return 'rgba(215,255,100,0.28)';
-  if (count === 2) return 'rgba(215,255,100,0.48)';
-  if (count <= 4) return 'rgba(215,255,100,0.72)';
+  if (count === 0) return 'rgba(255,255,255,0.07)';
+  if (count === 1) return 'rgba(121,87,255,0.30)';
+  if (count === 2) return 'rgba(121,87,255,0.60)';
+  if (count === 3) return '#7957FF';
+  if (count === 4) return '#B98CFF';
   return '#D7FF64';
+}
+
+type ChartStyle = 'grid' | 'dots' | 'neon';
+
+const CHART_STYLES: { id: ChartStyle; label: string; icon: React.ReactNode }[] = [
+  { id: 'grid', label: 'Squares', icon: <LayoutGrid className="h-3.5 w-3.5" /> },
+  { id: 'dots', label: 'Dots', icon: <CircleDot className="h-3.5 w-3.5" /> },
+  { id: 'neon', label: 'Neon', icon: <Sparkles className="h-3.5 w-3.5" /> },
+];
+
+interface HoveredCell {
+  cell: Heatcell;
+  x: number;
+  y: number;
+  align: 'left' | 'center' | 'right';
 }
 
 interface StatCardProps {
@@ -251,6 +271,23 @@ export const LeetCode: React.FC<LeetCodeProps> = ({ username = LEETCODE_USERNAME
       ? Math.round(beats.reduce((sum, item) => sum + (item.percentage ?? 0), 0) / beats.length)
       : 0;
     const heatmap = buildHeatmap(s.calendar?.submissionCalendar);
+    const weeklyTotals = Array.from({ length: 26 }, () => 0);
+    let windowSubmissions = 0;
+    let activeInWindow = 0;
+    let longestRun = 0;
+    let currentRun = 0;
+    for (const cell of heatmap.cells) {
+      weeklyTotals[cell.week] = (weeklyTotals[cell.week] ?? 0) + cell.count;
+      windowSubmissions += cell.count;
+      if (cell.count > 0) {
+        activeInWindow += 1;
+        currentRun += 1;
+        longestRun = Math.max(longestRun, currentRun);
+      } else {
+        currentRun = 0;
+      }
+    }
+    const maxWeek = Math.max(...weeklyTotals, 1);
     const seen = new Set<string>();
     const submissions = (s.submissions?.submission ?? []).filter((submission) => {
       if (!submission.titleSlug || seen.has(submission.titleSlug)) return false;
@@ -259,8 +296,26 @@ export const LeetCode: React.FC<LeetCodeProps> = ({ username = LEETCODE_USERNAME
     });
     const accepted = submissions.filter((item) => item.statusDisplay === 'Accepted');
     const recent = (accepted.length >= 4 ? accepted : submissions).slice(0, 5);
-    return { allAttempts, allAccepted, acceptance, beats, averageBeats, heatmap, recent };
+    return {
+      allAttempts,
+      allAccepted,
+      acceptance,
+      beats,
+      averageBeats,
+      heatmap,
+      recent,
+      weeklyTotals,
+      maxWeek,
+      windowSubmissions,
+      activeInWindow,
+      longestRun,
+    };
   }, [stats]);
+
+  const heatRef = useRef<HTMLDivElement>(null);
+  const [hoveredCell, setHoveredCell] = useState<HoveredCell | null>(null);
+  const [chartStyle, setChartStyle] = useState<ChartStyle>('dots');
+  const isDotted = chartStyle !== 'grid';
 
   const rank = stats.profile?.ranking ?? stats.user?.ranking ?? 0;
   const totalSolved = stats.solved?.solvedProblem ?? stats.profile?.totalSolved ?? 0;
@@ -494,71 +549,244 @@ export const LeetCode: React.FC<LeetCodeProps> = ({ username = LEETCODE_USERNAME
           </Panel>
         </div>
 
-        {/* Submission heatmap */}
+        {/* Submission activity — redesigned heatmap + weekly volume */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.55 }}
-          className="mt-4 rounded-2xl border border-white/10 bg-navy-surface/50 p-5 backdrop-blur-md sm:p-6"
+          className="relative mt-4 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-navy-surface/75 via-navy-surface/40 to-navy-deep/70 p-5 backdrop-blur-md sm:p-6"
         >
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div className="pointer-events-none absolute -right-16 -top-24 h-60 w-60 rounded-full bg-violet/15 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 left-1/3 h-52 w-52 rounded-full bg-lime/[0.06] blur-3xl" />
+
+          <div className="relative flex flex-wrap items-start justify-between gap-5">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-lime/70">CONSISTENCY MAP</p>
               <h3 className="mt-1.5 font-display text-lg font-bold text-offwhite sm:text-xl">
-                Last 26 weeks of submissions
+                Submission activity
               </h3>
+              <p className="mt-1.5 max-w-md text-xs text-offwhite/45">
+                Every {isDotted ? 'dot' : 'square'} is a day. Brighter means more problems solved — hover one for the exact count.
+              </p>
             </div>
-            <div className="flex items-center gap-2 font-mono text-[10px] text-offwhite/40">
-              <span>Less</span>
-              {[0, 1, 2, 4, 6].map((level) => (
-                <span
-                  key={level}
-                  className="h-3 w-3 rounded-[3px] border border-white/5"
-                  style={{ backgroundColor: heatColor(level) }}
-                />
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {[
+                { label: 'In window', value: String(derived.windowSubmissions), color: '#D7FF64' },
+                { label: 'Active days', value: String(derived.activeInWindow), color: '#9B80FF' },
+                { label: 'Longest run', value: `${derived.longestRun}d`, color: '#FF7058' },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="min-w-[84px] rounded-xl border border-white/10 bg-navy-deep/60 px-3 py-2.5"
+                >
+                  <p className="font-mono text-[9px] uppercase tracking-wider text-offwhite/40">
+                    {item.label}
+                  </p>
+                  <p className="mt-1 font-display text-lg font-bold leading-none" style={{ color: item.color }}>
+                    {item.value}
+                  </p>
+                </div>
               ))}
-              <span>More</span>
             </div>
           </div>
 
-          <div className="overflow-x-auto pb-2">
-            <div className="min-w-[620px]">
-              <div className="relative mb-2 h-4">
+          <div className="relative mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-navy-deep/70 p-1">
+              {CHART_STYLES.map((style) => {
+                const active = chartStyle === style.id;
+                return (
+                  <button
+                    key={style.id}
+                    type="button"
+                    onClick={() => setChartStyle(style.id)}
+                    aria-pressed={active}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[10px] transition-all ${
+                      active
+                        ? 'bg-lime text-navy-dark shadow-[0_0_16px_rgba(215,255,100,0.4)]'
+                        : 'text-offwhite/50 hover:bg-white/5 hover:text-offwhite'
+                    }`}
+                  >
+                    {style.icon}
+                    {style.label}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="font-mono text-[10px] text-offwhite/35">
+              {chartStyle === 'neon' ? 'Pulse mode — active days glow' : 'Tap a style to remix the map'}
+            </p>
+          </div>
+
+          <div ref={heatRef} className="relative mt-4 overflow-x-auto pb-2">
+            <div className="relative w-full min-w-[640px] pl-8 pr-8">
+              <div className="relative ml-8 mb-2 h-4">
                 {derived.heatmap.months.map((month) => (
                   <span
                     key={`${month.label}-${month.column}`}
-                    className="absolute font-mono text-[10px] text-offwhite/40"
+                    className="absolute font-mono text-[10px] text-offwhite/45"
                     style={{ left: `${(month.column / 26) * 100}%` }}
                   >
                     {month.label}
                   </span>
                 ))}
               </div>
+
               <div
-                className="gap-[3px]"
-                style={{
-                  display: 'grid',
-                  gridAutoFlow: 'column',
-                  gridTemplateRows: 'repeat(7, 12px)',
-                  gridTemplateColumns: 'repeat(26, minmax(0, 1fr))',
-                }}
+                className="relative ml-8"
+                onMouseLeave={() => setHoveredCell(null)}
               >
-                {derived.heatmap.cells.map((cell) => (
+                <div className="absolute -left-8 top-0 flex h-[129px] w-7 flex-col justify-between font-mono text-[9px] text-offwhite/30">
+                  <span />
+                  <span>Mon</span>
+                  <span />
+                  <span>Wed</span>
+                  <span />
+                  <span>Fri</span>
+                  <span />
+                </div>
+
+                <div
+                  className="gap-1"
+                  style={{
+                    display: 'grid',
+                    gridAutoFlow: 'column',
+                    gridTemplateRows: 'repeat(7, 15px)',
+                    gridTemplateColumns: 'repeat(26, minmax(0, 1fr))',
+                  }}
+                >
+                  {derived.heatmap.cells.map((cell) => (
+                    <motion.div
+                      key={cell.date}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.25, delay: (cell.week / 26) * 0.5 }}
+                      whileHover={{ scale: 1.45, zIndex: 3 }}
+                      onMouseEnter={(event) => {
+                        const grid = event.currentTarget.parentElement;
+                        const gridRect = grid?.getBoundingClientRect();
+                        const cellRect = event.currentTarget.getBoundingClientRect();
+                        if (!gridRect) return;
+                        const rawX = cellRect.left - gridRect.left + cellRect.width / 2;
+                        const edge = 76;
+                        setHoveredCell({
+                          cell,
+                          x: rawX,
+                          y: cellRect.top - gridRect.top,
+                          align:
+                            rawX < edge
+                              ? 'left'
+                              : rawX > gridRect.width - edge
+                                ? 'right'
+                                : 'center',
+                        });
+                      }}
+                      role="img"
+                      aria-label={`${cell.count} submission${cell.count === 1 ? '' : 's'} on ${cell.label}`}
+                      className="relative border border-white/[0.04] transition-colors"
+                      style={{
+                        width: isDotted ? '11px' : '100%',
+                        height: isDotted ? '11px' : '100%',
+                        borderRadius: isDotted ? '50%' : '4px',
+                        placeSelf: isDotted ? 'center' : undefined,
+                        backgroundColor: heatColor(cell.count),
+                        boxShadow:
+                          cell.count >= 4
+                            ? '0 0 14px rgba(215,255,100,0.45), inset 0 0 0 1px rgba(215,255,100,0.35)'
+                            : cell.count === 3
+                              ? '0 0 9px rgba(121,87,255,0.45)'
+                              : undefined,
+                        animation:
+                          chartStyle === 'neon' && cell.count > 0
+                            ? 'lc-glow 2.2s ease-in-out infinite'
+                            : undefined,
+                        animationDelay:
+                          chartStyle === 'neon' && cell.count > 0
+                            ? `${(cell.week % 8) * 0.18}s`
+                            : undefined,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {hoveredCell && (
                   <div
-                    key={cell.date}
-                    title={`${cell.count} submission${cell.count === 1 ? '' : 's'} on ${cell.label}`}
-                    aria-label={`${cell.count} submissions on ${cell.label}`}
-                    className="rounded-[3px] border border-white/[0.03] transition-transform hover:scale-125"
-                    style={{ backgroundColor: heatColor(cell.count) }}
-                  />
-                ))}
+                    className={`pointer-events-none absolute z-20 -translate-y-full pb-2 ${
+                      hoveredCell.align === 'left'
+                        ? 'translate-x-0'
+                        : hoveredCell.align === 'right'
+                          ? '-translate-x-full'
+                          : '-translate-x-1/2'
+                    }`}
+                    style={{ left: hoveredCell.x, top: hoveredCell.y }}
+                  >
+                    <div className="rounded-lg border border-lime/30 bg-navy-deep/95 px-3 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md">
+                      <p className="whitespace-nowrap font-mono text-[11px] font-bold text-lime">
+                        {hoveredCell.cell.count} submission
+                        {hoveredCell.cell.count === 1 ? '' : 's'}
+                      </p>
+                      <p className="whitespace-nowrap font-mono text-[10px] text-offwhite/50">
+                        {hoveredCell.cell.label}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="ml-8 mt-5">
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-violet-light/80">
+                    Weekly volume
+                  </p>
+                  <p className="font-mono text-[10px] text-offwhite/40">26w</p>
+                </div>
+                <div className="flex h-12 items-end gap-1 border-b border-white/[0.06] pb-px">
+                  {derived.weeklyTotals.map((total, index) => (
+                    <div
+                      key={index}
+                      className="flex h-full min-w-0 flex-1 items-end justify-center"
+                    >
+                      <div
+                        style={{
+                          height: `${total > 0 ? Math.max((total / derived.maxWeek) * 100, 12) : 0}%`,
+                          width: isDotted ? '11px' : '100%',
+                        }}
+                        title={`${total} submissions in week ${index + 1}`}
+                        className={`bg-gradient-to-t from-violet to-lime transition-all duration-500 hover:opacity-100 ${
+                          isDotted ? 'rounded-t-full' : 'rounded-t-[3px]'
+                        } ${chartStyle === 'neon' && total > 0 ? 'shadow-[0_0_10px_rgba(215,255,100,0.5)]' : ''} ${
+                          total === 0 ? 'opacity-0' : 'opacity-90'
+                        }`}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-          <p className="mt-3 font-mono text-[10px] text-offwhite/35">
-            Peak day: {derived.heatmap.max} submissions · {activeDays} active days recorded
-          </p>
+
+          <div className="relative mt-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="font-mono text-[10px] text-offwhite/40">
+              Peak day: {derived.heatmap.max} · {activeDays} active days recorded all-time
+            </p>
+            <div className="flex items-center gap-2 font-mono text-[10px] text-offwhite/40">
+              <span>Less</span>
+              {[0, 1, 2, 3, 5].map((level) => (
+                <span
+                  key={level}
+                  className={`h-3 w-3 border border-white/10 transition-transform hover:scale-125 ${
+                    isDotted ? 'rounded-full' : 'rounded-[3px]'
+                  }`}
+                  style={{
+                    backgroundColor: heatColor(level),
+                    boxShadow: level >= 4 ? '0 0 8px rgba(215,255,100,0.35)' : undefined,
+                  }}
+                />
+              ))}
+              <span>More</span>
+            </div>
+          </div>
         </motion.div>
 
         {/* Topics + recent submissions */}

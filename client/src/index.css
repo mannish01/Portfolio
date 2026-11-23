@@ -34,6 +34,17 @@
   }
 }
 
+/* LeetCode activity chart — neon pulse for the "Neon" style */
+@keyframes lc-glow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.75) drop-shadow(0 0 6px rgba(215, 255, 100, 0.65));
+  }
+}
+
 /* Glassmorphism utility helpers */
 .glass-panel {
   background: rgba(23, 21, 45, 0.7);
