@@ -123,6 +123,13 @@ const clientDistPath = path.resolve(__dirname, '../../client/dist');
 app.use(express.static(clientDistPath, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
   etag: true,
+  setHeaders(res, filePath) {
+    // The entry HTML points at hashed asset names. Caching it pins an old
+    // bundle after a deploy, so always revalidate it; keep assets cached.
+    if (path.basename(filePath) === 'index.html') {
+      res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    }
+  },
 }));
 
 // API 404 handler
