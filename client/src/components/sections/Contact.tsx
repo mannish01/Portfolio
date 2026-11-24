@@ -113,7 +113,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32 bg-navy-deep text-offwhite overflow-hidden">
+    <section id="contact" className="relative py-16 sm:py-32 bg-navy-deep text-offwhite overflow-hidden">
       {/* Background Radial Glow */}
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-violet/15 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-coral/15 rounded-full blur-3xl pointer-events-none" />

@@ -6,7 +6,7 @@ import { SectionHeading } from '../ui/SectionHeading.js';
 
 export const Experience: React.FC = () => {
   return (
-    <section id="experience" className="relative py-24 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
+    <section id="experience" className="relative py-16 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute top-1/3 left-0 w-80 h-80 bg-violet/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-coral/10 rounded-full blur-3xl pointer-events-none" />

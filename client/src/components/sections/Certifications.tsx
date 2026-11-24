@@ -12,7 +12,7 @@ const certIconMap: Record<string, React.ForwardRefExoticComponent<React.SVGProps
 
 export const Certifications: React.FC = () => {
   return (
-    <section id="certifications" className="relative py-24 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
+    <section id="certifications" className="relative py-16 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
       {/* Background Accent */}
       <div className="absolute top-1/2 right-10 w-72 h-72 bg-violet/10 rounded-full blur-3xl pointer-events-none" />
 

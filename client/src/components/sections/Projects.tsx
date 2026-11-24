@@ -75,7 +75,7 @@ export const Projects: React.FC = () => {
   }, [selectedProject]);
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32 bg-navy-surface text-offwhite overflow-hidden">
+    <section id="projects" className="relative py-16 sm:py-32 bg-navy-surface text-offwhite overflow-hidden">
       {/* Visual Ambiance */}
       <div className="absolute -top-32 right-1/4 w-[500px] h-[500px] bg-violet/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 left-1/4 w-[500px] h-[500px] bg-coral/10 rounded-full blur-3xl pointer-events-none" />
@@ -209,7 +209,7 @@ export const Projects: React.FC = () => {
                           <div className="w-2.5 h-2.5 rounded-full bg-coral/80" />
                           <div className="w-2.5 h-2.5 rounded-full bg-lime/80" />
                           <div className="w-2.5 h-2.5 rounded-full bg-violet/80" />
-                          <span className="ml-2 font-mono text-[11px] text-offwhite/50 truncate max-w-[200px]">
+                          <span className="ml-2 font-mono text-[11px] text-offwhite/50 break-all sm:truncate sm:max-w-[200px]">
                             {project.id === 'applylens'
                               ? 'https://applylens.dev/opportunities'
                               : project.id === 'taskflow'

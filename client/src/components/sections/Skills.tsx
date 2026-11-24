@@ -60,7 +60,7 @@ export const Skills: React.FC = () => {
       : allSkills.filter((s) => s.category === activeTab);
 
   return (
-    <section id="skills" className="relative py-24 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
+    <section id="skills" className="relative py-16 sm:py-32 bg-navy-dark text-offwhite overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute top-1/4 -right-20 w-80 h-80 bg-violet/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-lime/10 rounded-full blur-3xl pointer-events-none" />

@@ -328,7 +328,7 @@ export const LeetCode: React.FC<LeetCodeProps> = ({ username = LEETCODE_USERNAME
   return (
     <section
       id="leetcode"
-      className="relative overflow-hidden bg-navy-deep py-24 text-offwhite sm:py-32"
+      className="relative overflow-hidden bg-navy-deep py-16 text-offwhite sm:py-32"
     >
       <div className="pointer-events-none absolute left-1/3 top-0 h-72 w-72 rounded-full bg-violet/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-1/4 right-0 h-80 w-80 rounded-full bg-coral/[0.07] blur-3xl" />
@@ -618,7 +618,10 @@ export const LeetCode: React.FC<LeetCodeProps> = ({ username = LEETCODE_USERNAME
             </p>
           </div>
 
-          <div ref={heatRef} className="relative mt-4 overflow-x-auto pb-2">
+          <p className="mt-3 font-mono text-[10px] text-lime/60 sm:hidden">
+            ← Swipe the activity map to see all months →
+          </p>
+          <div ref={heatRef} className="relative mt-2 overflow-x-auto pb-2">
             <div className="relative w-full min-w-[640px] pl-8 pr-8">
               <div className="relative ml-8 mb-2 h-4">
                 {derived.heatmap.months.map((month) => (

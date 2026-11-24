@@ -71,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 sm:h-[70px] flex items-center ${
           isScrolled
-            ? 'bg-navy-dark/80 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+            ? 'bg-navy-dark/95 backdrop-blur-xl sm:bg-navy-dark/80 border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
             : 'bg-transparent'
         }`}
       >

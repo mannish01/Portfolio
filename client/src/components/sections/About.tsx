@@ -17,7 +17,7 @@ interface AboutProps {
 
 export const About: React.FC<AboutProps> = ({ onScrollTo }) => {
   return (
-    <section id="about" className="relative py-24 sm:py-32 bg-navy-deep text-offwhite overflow-hidden">
+    <section id="about" className="relative py-16 sm:py-32 bg-navy-deep text-offwhite overflow-hidden">
       {/* Background Decorative Accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-violet/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-coral/10 rounded-full blur-3xl pointer-events-none" />
