@@ -199,7 +199,7 @@ Portfolio/
 - **College**: Sitamarhi Institute of Technology, Sitamarhi, Bihar
 - **CGPA**: 8.51 / 10 (High First Class Distinction)
 - **Location**: Samastipur, Bihar, India
-- **Contact**: `manishkumar383904@gmail.com` • `+91-9939383904`
+- **Contact**: `manishkumar383904@gmail.com`
 - **Profiles**: [GitHub](https://github.com/mannish01) • [LinkedIn](https://www.linkedin.com/in/mannish01)
 - **Internships**:
   1. **NIELIT — Machine Learning Intern** (6 weeks / 5th Semester): Foundational knowledge and hands-on exposure to AI and ML concepts and workflows.

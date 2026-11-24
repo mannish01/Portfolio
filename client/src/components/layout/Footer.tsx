@@ -11,7 +11,6 @@ import {
   Mail,
   Github,
   Linkedin,
-  Phone,
   ArrowUpRight,
   Sparkles,
   Code2,
@@ -178,14 +177,6 @@ export const Footer: React.FC<FooterProps> = ({ onScrollTo }) => {
                 >
                   <Mail className="w-3.5 h-3.5 text-coral" />
                   <span>{personalInfo.email}</span>
-                </a>
-
-                <a
-                  href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, '')}`}
-                  className="group inline-flex items-center gap-2 text-offwhite/75 hover:text-lime transition-colors"
-                >
-                  <Phone className="w-3.5 h-3.5 text-lime" />
-                  <span>{personalInfo.phone}</span>
                 </a>
               </div>
             </div>

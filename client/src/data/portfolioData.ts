@@ -17,7 +17,6 @@ export const personalInfo = {
     "I'm a Computer Science undergraduate specializing in Artificial Intelligence and Machine Learning, passionate about building meaningful digital products and exploring modern technologies.",
   location: 'Samastipur, Bihar, India',
   email: 'manishkumar383904@gmail.com',
-  phone: '+91-9939383904',
   github: 'https://github.com/mannish01',
   linkedin: 'https://www.linkedin.com/in/mannish01',
   leetcode: 'https://leetcode.com/u/MANISHX01/',

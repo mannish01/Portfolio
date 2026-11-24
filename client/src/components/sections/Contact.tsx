@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mail,
-  Phone,
   MapPin,
   Github,
   Linkedin,
@@ -155,24 +154,6 @@ export const Contact: React.FC = () => {
                   </div>
                 </a>
 
-                {/* Phone Channel */}
-                <a
-                  href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, '')}`}
-                  className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 hover:bg-coral/15 border border-white/10 hover:border-coral/40 transition-all duration-300 group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-coral/20 border border-coral/30 text-coral flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="block font-mono text-xs uppercase tracking-wider text-offwhite/50">
-                      Direct Phone
-                    </span>
-                    <span className="font-mono text-xs sm:text-sm font-semibold text-offwhite group-hover:text-coral transition-colors">
-                      {personalInfo.phone}
-                    </span>
-                  </div>
-                </a>
-
                 {/* Location Channel */}
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
                   <div className="w-10 h-10 rounded-xl bg-lime/15 border border-lime/30 text-lime flex items-center justify-center shrink-0">
@@ -237,9 +218,6 @@ export const Contact: React.FC = () => {
                     Send a Message
                   </h3>
                 </div>
-                <span className="font-mono text-xs text-offwhite/50">
-                  POST /api/contact
-                </span>
               </div>
 
               {/* Status Alert Messages */}
